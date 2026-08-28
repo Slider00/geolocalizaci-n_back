@@ -3,37 +3,37 @@ import { Earthquake } from "../models/Earthquake";
 import { Report } from "../models/Report";
 import { syncUSGSEarthquakes } from "../services/usgsService";
 
-// Fetch all earthquakes with dynamic reports aggregation
+// Obtiene todos los sismos con la agregación dinámica de reportes
 export const getEarthquakes = async (req: Request, res: Response) => {
   try {
     const dbEvents = await Earthquake.find().sort({ date: -1 });
 
     const mappedEvents = await Promise.all(
       dbEvents.map(async (e) => {
-        // Query all reports linked to this specific earthquake
+        // Consulta todos los reportes vinculados a este sismo específico
         const associatedReports = await Report.find({ earthquakeId: e._id.toString() });
 
-        // Sum people and houses from field reports
+        // Suma personas y viviendas de los reportes en el terreno
         const reportsPeopleSum = associatedReports.reduce((sum, r) => sum + r.affectedPeople, 0);
         const reportsHousesSum = associatedReports.reduce((sum, r) => sum + (r.affectedHouses || 0), 0);
 
-        // If there are field reports, they override the baseline estimations dynamically
+        // Si hay reportes en el terreno, sobrescriben dinámicamente las estimaciones iniciales
         let affectedCount = e.affectedCount || 0;
         let affectedHouses = 0;
         let victimsStatus = { ...e.victimsStatus };
 
         if (associatedReports.length > 0) {
-          // Add reports data to the baseline estimations
+          // Agrega la información de los reportes a los contadores
           affectedCount = reportsPeopleSum;
           affectedHouses = reportsHousesSum;
 
-          // Estimate the critical/minor/safe split based on active reports count
+          // Estima la distribución crítico/leve/a salvo según la cantidad de personas afectadas en los reportes
           const critical = Math.round(reportsPeopleSum * 0.08);
           const minor = Math.round(reportsPeopleSum * 0.32);
           const safe = reportsPeopleSum - (critical + minor);
           victimsStatus = { critical, minor, safe };
         } else if (e.magnitude >= 5.5 && affectedCount > 0) {
-          // If it's a major sismo with no reports yet, estimate baseline houses affected
+          // Si es un sismo mayor sin reportes aún, estima viviendas afectadas basadas en la magnitud
           affectedHouses = Math.round(affectedCount / 4.5);
         }
 
@@ -43,11 +43,11 @@ export const getEarthquakes = async (req: Request, res: Response) => {
           date: e.date.toISOString(),
           magnitude: e.magnitude,
           depth: e.depth,
-          lat: e.location.coordinates[1], // Latitude
-          lng: e.location.coordinates[0], // Longitude
+          lat: e.location.coordinates[1], // Latitud
+          lng: e.location.coordinates[0], // Longitud
           region: e.region,
           affectedCount,
-          affectedHouses, // Added dynamic property
+          affectedHouses, // Campo dinámico añadido
           victimsStatus,
           needs: e.needs
         };
@@ -60,7 +60,7 @@ export const getEarthquakes = async (req: Request, res: Response) => {
   }
 };
 
-// Sync earthquakes from USGS real-time feed
+// Sincroniza sismos desde el feed en tiempo real de la USGS
 export const syncEarthquakes = async (req: Request, res: Response) => {
   try {
     const stats = await syncUSGSEarthquakes();

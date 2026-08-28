@@ -7,7 +7,7 @@ export interface IEarthquake {
   depth: number;
   location: {
     type: "Point";
-    coordinates: [number, number]; // [longitude, latitude]
+    coordinates: [number, number]; // [longitud, latitud]
   };
   region: string;
   affectedCount: number;
@@ -37,7 +37,7 @@ const EarthquakeSchema = new Schema<IEarthquake>({
       required: true
     },
     coordinates: {
-      type: [Number], // [longitude, latitude]
+      type: [Number], // [longitud, latitud]
       required: true
     }
   },
@@ -58,7 +58,7 @@ const EarthquakeSchema = new Schema<IEarthquake>({
   ]
 });
 
-// Create 2dsphere spatial index for geospatial queries
+// Crea un índice espacial 2dsphere para consultas geoespaciales
 EarthquakeSchema.index({ location: "2dsphere" });
 
 export const Earthquake = model<IEarthquake>("Earthquake", EarthquakeSchema);

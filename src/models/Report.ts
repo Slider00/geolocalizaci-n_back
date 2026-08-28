@@ -7,7 +7,7 @@ export interface IVictimReport {
   locationName: string;
   location: {
     type: "Point";
-    coordinates: [number, number]; // [longitude, latitude]
+    coordinates: [number, number]; // [longitud, latitud]
   };
   affectedPeople: number;
   affectedHouses: number;
@@ -30,7 +30,7 @@ const ReportSchema = new Schema<IVictimReport>({
       required: true
     },
     coordinates: {
-      type: [Number], // [longitude, latitude]
+      type: [Number], // [longitud, latitud]
       required: true
     }
   },
@@ -50,7 +50,7 @@ const ReportSchema = new Schema<IVictimReport>({
   date: { type: Date, default: Date.now }
 });
 
-// Create 2dsphere spatial index for location queries
+// Crea un índice espacial 2dsphere para consultas de ubicación
 ReportSchema.index({ location: "2dsphere" });
 
 export const Report = model<IVictimReport>("Report", ReportSchema);

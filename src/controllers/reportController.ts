@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Report } from "../models/Report";
 
-// Fetch all victim reports
+// Obtiene todos los reportes de damnificados
 export const getReports = async (req: Request, res: Response) => {
   try {
     const dbReports = await Report.find().sort({ date: -1 });
@@ -29,7 +29,7 @@ export const getReports = async (req: Request, res: Response) => {
   }
 };
 
-// Create a new victim report
+// Crea un nuevo reporte de damnificados
 export const createReport = async (req: Request, res: Response) => {
   const {
     earthquakeId,
@@ -64,7 +64,7 @@ export const createReport = async (req: Request, res: Response) => {
 
     const saved = await newReport.save();
 
-    // Return formatted report
+    // Retorna el reporte con el formato adecuado
     res.status(201).json({
       id: saved._id.toString(),
       earthquakeId: saved.earthquakeId,
@@ -85,7 +85,7 @@ export const createReport = async (req: Request, res: Response) => {
   }
 };
 
-// Update report status
+// Actualiza el estado del reporte
 export const updateReportStatus = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { status } = req.body;

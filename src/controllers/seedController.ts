@@ -9,7 +9,7 @@ const initialEarthquakes = [
     date: new Date("2026-08-24T14:32:00Z"),
     magnitude: 6.2,
     depth: 18,
-    location: { type: "Point", coordinates: [-76.6502, 5.6983] }, // [lng, lat]
+    location: { type: "Point", coordinates: [-76.6502, 5.6983] }, // [longitud, latitud]
     region: "Chocó",
     affectedCount: 1250,
     victimsStatus: { critical: 45, minor: 320, safe: 885 },
@@ -26,7 +26,7 @@ const initialEarthquakes = [
     date: new Date("2026-08-20T08:15:00Z"),
     magnitude: 5.8,
     depth: 12,
-    location: { type: "Point", coordinates: [-76.6063, 2.4419] }, // [lng, lat]
+    location: { type: "Point", coordinates: [-76.6063, 2.4419] }, // [longitud, latitud]
     region: "Cauca",
     affectedCount: 820,
     victimsStatus: { critical: 28, minor: 190, safe: 602 },
@@ -43,7 +43,7 @@ const initialEarthquakes = [
     date: new Date("2026-08-18T22:04:00Z"),
     magnitude: 5.4,
     depth: 147,
-    location: { type: "Point", coordinates: [-73.1189, 6.8286] }, // [lng, lat]
+    location: { type: "Point", coordinates: [-73.1189, 6.8286] }, // [longitud, latitud]
     region: "Santander",
     affectedCount: 150,
     victimsStatus: { critical: 2, minor: 15, safe: 133 },
@@ -59,7 +59,7 @@ const initialEarthquakes = [
     date: new Date("2026-08-10T13:19:00Z"),
     magnitude: 6.0,
     depth: 15,
-    location: { type: "Point", coordinates: [-75.6811, 4.5339] }, // [lng, lat]
+    location: { type: "Point", coordinates: [-75.6811, 4.5339] }, // [longitud, latitud]
     region: "Quindío",
     affectedCount: 3500,
     victimsStatus: { critical: 120, minor: 850, safe: 2530 },
@@ -175,11 +175,11 @@ const initialReports = [
 
 export const seedDatabase = async (req: Request, res: Response) => {
   try {
-    // 1. Clear existing collections
+    // 1. Limpia las colecciones existentes
     await Earthquake.deleteMany({});
     await Report.deleteMany({});
 
-    // 2. Insert initial records
+    // 2. Inserta los registros iniciales
     const seededEvents = await Earthquake.insertMany(initialEarthquakes);
     const seededReports = await Report.insertMany(initialReports);
 
