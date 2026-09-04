@@ -13,6 +13,7 @@ export interface IVictimReport {
   affectedHouses: number;
   needs: ('Alimentos' | 'Agua Potable' | 'Carpas/Refugio' | 'Kits de Aseo' | 'Atención Médica')[];
   description: string;
+  images?: string[];
   status: 'pending' | 'in_progress' | 'resolved';
   date: Date;
 }
@@ -41,6 +42,7 @@ const ReportSchema = new Schema<IVictimReport>({
     enum: ["Alimentos", "Agua Potable", "Carpas/Refugio", "Kits de Aseo", "Atención Médica"]
   }],
   description: { type: String, required: true },
+  images: [{ type: String }],
   status: {
     type: String,
     enum: ["pending", "in_progress", "resolved"],

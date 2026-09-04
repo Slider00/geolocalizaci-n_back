@@ -20,7 +20,8 @@ connectDB();
 
 // 3. Mount Middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // 4. Mount API Routes
 app.use("/api/earthquakes", earthquakeRoutes);

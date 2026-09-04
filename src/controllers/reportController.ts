@@ -19,6 +19,7 @@ export const getReports = async (req: Request, res: Response) => {
       affectedHouses: r.affectedHouses || 0,
       needs: r.needs,
       description: r.description,
+      images: r.images || [],
       status: r.status,
       date: r.date.toISOString()
     }));
@@ -42,6 +43,7 @@ export const createReport = async (req: Request, res: Response) => {
     affectedHouses,
     needs,
     description,
+    images,
     status
   } = req.body;
 
@@ -59,6 +61,7 @@ export const createReport = async (req: Request, res: Response) => {
       affectedHouses: affectedHouses || 0,
       needs: needs || [],
       description,
+      images: images || [],
       status: status || "pending"
     });
 
@@ -77,6 +80,7 @@ export const createReport = async (req: Request, res: Response) => {
       affectedHouses: saved.affectedHouses,
       needs: saved.needs,
       description: saved.description,
+      images: saved.images || [],
       status: saved.status,
       date: saved.date.toISOString()
     });
@@ -113,6 +117,7 @@ export const updateReportStatus = async (req: Request, res: Response) => {
       affectedHouses: updated.affectedHouses,
       needs: updated.needs,
       description: updated.description,
+      images: updated.images || [],
       status: updated.status,
       date: updated.date.toISOString()
     });

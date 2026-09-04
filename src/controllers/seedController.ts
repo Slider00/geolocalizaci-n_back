@@ -82,6 +82,10 @@ const initialReports = [
     affectedPeople: 45,
     affectedHouses: 8,
     needs: ["Carpas/Refugio", "Alimentos", "Kits de Aseo"],
+    images: [
+      "https://images.unsplash.com/photo-1588693951525-fa1224855d04?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?w=600&auto=format&fit=crop&q=80"
+    ],
     status: "pending",
     date: new Date("2026-08-24T15:10:00Z"),
     phone: "312 456 7890",
@@ -96,6 +100,9 @@ const initialReports = [
     affectedPeople: 180,
     affectedHouses: 0,
     needs: ["Agua Potable", "Kits de Aseo"],
+    images: [
+      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80"
+    ],
     status: "in_progress",
     date: new Date("2026-08-24T16:05:00Z"),
     phone: "315 987 6543",
@@ -148,7 +155,7 @@ const initialReports = [
     earthquakeId: "eq-santander-2026",
     reporterName: "Pedro Nel Rodríguez",
     description: "Caída de tejas y agrietamiento de muros en 3 colegios de Los Santos. No hay lesionados graves, pero se suspendieron clases preventivamente.",
-    location: { type: "Point", coordinates: [-73.1195, 6.8290] },
+    location: { type: "Point", coordinates: [-73.1195, 6.8290] }, // [longitud, latitud]
     affectedPeople: 15,
     affectedHouses: 3,
     needs: ["Kits de Aseo"],
