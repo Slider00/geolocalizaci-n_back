@@ -8,15 +8,18 @@ const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".en
 dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 
 import { connectDB } from "./db";
+import { connectPostgres } from "./config/postgres";
 import { syncUSGSEarthquakes } from "./services/usgsService";
 import earthquakeRoutes from "./routes/earthquakeRoutes";
 import reportRoutes from "./routes/reportRoutes";
+import spatialRoutes from "./routes/spatialRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// 2. Connect to MongoDB using Mongoose
+// 2. Connect to Databases (MongoDB & PostgreSQL/PostGIS)
 connectDB();
+connectPostgres();
 
 // 3. Mount Middlewares
 app.use(cors());
@@ -26,6 +29,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 // 4. Mount API Routes
 app.use("/api/earthquakes", earthquakeRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/spatial", spatialRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
